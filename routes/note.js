@@ -13,12 +13,21 @@ note.get("/", async (req, res) => {
 note.post("/", (req, res) => {
     let newNote = req.body;
     const newData = JSON.parse(data);
-    newNote.id = `${newData.length}`;// remove this later
+    newNote.id = getNewId();
     newData.push(newNote);
     data = JSON.stringify(newData);
     saveNewNote(data);
     //console.log(message)
     res.json(newNote);
+});
+note.delete("/:id", (req, res) => {
+    const currentData = JSON.parse(data);
+    const id = req.params.id;
+    const newData = currentData.filter(data => data.id !== id);
+    data = JSON.stringify(newData);
+    saveNewNote(data);
+    res.json("data is removed");
+
 })
 const getData = async () => {
     const data = await readFile(file, { encoding: "utf8" });
@@ -34,5 +43,9 @@ const saveNewNote = async (data) => {
         //return "new is saved"
         console.log("new data is saved")
     })
+}
+const getNewId = () => {
+    const id = Math.floor((Math.random()*9000)+1000);
+    return `${id}`;
 }
 module.exports = note;
