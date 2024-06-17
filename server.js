@@ -10,6 +10,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
 app.use("/api/notes", notes);
 const PORT = process.env.PORT || 3000;
+
 // line 14-18 is used only when you don't have express.static but since you have it on line you don't need the following codes
 // app.get("/", (req,res)=>{
 //     console.log ("welcome to Homepage");
